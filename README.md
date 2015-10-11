@@ -25,12 +25,13 @@ The end product should:
 
 ## Instructions
 
-1. Edit `config.js` to configure:
+1. Clone repo and change to directory: `git clone git@github.com:colinhoernig/producer-consumer.git && cd producer-consumer`
+2. Edit `config.js` to configure:
   * `expressionCount` - the number of expressions the producer should generate
   * `consumerPort` - the port that the consumer service lives on
   * `consumerFrequency` - the frequency of which to consume produced expressions
-2. Start the Consumer service with `npm run consumer`.
-3. Start as many Producer services as you wish with `npm run producer`.  When all expressions have been solved, the Producer service instance will terminate.
+3. Start the Consumer service with `npm run consumer`.
+4. Start as many Producer services as you wish with `npm run producer`.  When all expressions have been solved, the Producer service instance will terminate.
 
 The Producer service will generate expressions and send them via TCP socket connection to the Consumer service, which will queue each expression.  If the queue contains messages, the Consumer will parse and solve the expressions and log the solved expression.
 
