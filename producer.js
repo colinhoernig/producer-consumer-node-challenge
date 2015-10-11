@@ -2,35 +2,49 @@
 'use strict';
 
 var net = require('net');
+var connect = require('connect');
 var expression = require('./lib/expression');
 var config = require('./config');
 
-var port = config.consumerPort || 3001;
-var host = config.consumerHost || 'localhost';
+var consumerPort = config.consumerPort || 3001;
+var consumerHost = config.consumerHost || 'localhost';
 
-// Create a socket connection
+var producerPort = config.producerPort || 3002;
+var producerHost = config.producerHost || 'localhost';
+
+// Create a socket connection to the Consumer
 var producer = new net.Socket();
-producer.connect(port, host, function() {
-  console.log("Connected to Consumer on port " + port + "\n");
 
-  // Generate a set of expressions
-  for (var x = 1; x < config.expressionCount; x++) {
+// Connect to the Consumer service and start a simple HTTP server
+// for generating expressions
+producer.connect(consumerPort, consumerHost, function() {
+  console.log("Producer started on " + producerHost + ':' + producerPort);
+  console.log("Connected to Consumer on " + consumerHost + ':' + consumerPort + "\n");
+
+  // Create an HTTP endpoint for generating requests and sending
+  // them to the Consumer
+  var app = connect();
+  app.use('/generate-expression', function(req, res) {
+    // Generate a random expression
     var exp = expression.generate();
-    console.log(exp);
+
+    // Reply back with the expression to the requester
+    res.end("Generated Expression: " + exp + "\n");
+
+    // Finally, send the expression to the Consumer
     producer.write(exp + "\n", 'utf8');
-  }
+  });
+
+  // Start the HTTP server
+  return app.listen(producerPort, producerHost);
 });
 
-// Handle response from server
-var responseCount = 1;
+// Handle incoming data from Consumer
 producer.on('data', function(data) {
+  // Data received from the Consumer is deliminated by newlines
   data.toString().split("\n").forEach(function(message) {
     if (message) {
       console.log(message);
-      if (++responseCount === config.expressionCount) {
-        console.log("\nAll expressions solved.");
-        producer.destroy();
-      }
     }
   });
 });
@@ -44,7 +58,7 @@ producer.on('close', function() {
 producer.on('error', function(error) {
   switch(error.code) {
     case 'ECONNREFUSED':
-      console.log('Connection to Consumer @ ' + host + ':' + port + ' refused.');
+      console.log('Connection to Consumer @ ' + consumerHost + ':' + consumerPort + ' refused.');
       break;
     default:
       console.log('Producer Error: ', error);

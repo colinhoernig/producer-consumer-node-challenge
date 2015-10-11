@@ -11,13 +11,13 @@ var port = config.consumerPort || 3001;
 var host = config.consumerHost || 'localhost';
 var frequency = config.consumerFrequency || 100;
 
-// Structure to keep track of connected producers
+// Structure to keep track of connected Producers
 var producers = [];
 
 // Start a TCP server
 var server = net.createServer(function(socket) {
 
-  // Keep track of newly connected producer
+  // Keep track of newly connected Producer
   producers.push(socket);
 
   // If the queue has any messages, process them at the specified frequency
@@ -27,7 +27,7 @@ var server = net.createServer(function(socket) {
     }
   }, frequency);
 
-  // Handle incoming expressions from producer
+  // Handle incoming expressions from Producer
   socket.on('data', function(data) {
     queue.enqueue([
       data.toString(),
@@ -35,7 +35,7 @@ var server = net.createServer(function(socket) {
     ]);
   });
 
-  // Remove producer on disconnect
+  // Remove Producer on disconnect
   socket.on('end', function() {
     producers.splice(producers.indexOf(socket), 1);
   });
@@ -53,7 +53,7 @@ var server = net.createServer(function(socket) {
         var result = expression.solve(exp);
         var solvedExpression = exp + result;
 
-        // Send a message to all producers letting them know
+        // Send a message to all Producers letting them know
         // that an expression has been solved
         notifyProducer('Consumer Solved Expression: ' + solvedExpression, sender);
       }
@@ -61,14 +61,14 @@ var server = net.createServer(function(socket) {
   }
 
   function notifyProducer(message, sender) {
-    // Send the message to the producer
+    // Send the message to the Producer
     producers.forEach(function(producer) {
       if (sender === producer._peername.port) {
         producer.write(message + "\n");
       }
     });
 
-    // Log the message to the server
+    // Log the message
     process.stdout.write(message + "\n");
   }
 

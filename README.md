@@ -1,6 +1,6 @@
 # producer-consumer coding challenge
 
-The assignment is to build a simple Producer/Consumer system. In this system the Generator will send a series of random arithmetic expressions, while the Evaluator will accept these expressions, compute the result and then report the solution to the Generator.
+The assignment is to build a simple [Producer/Consumer](https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem) system. In this system the Generator will send a series of random arithmetic expressions, while the Evaluator will accept these expressions, compute the result and then report the solution to the Generator.
 
 ---
 
@@ -25,7 +25,7 @@ The end product should:
 
 ## Instructions
 
-1. Clone repo and change to directory: `git clone git@github.com:colinhoernig/producer-consumer.git && cd producer-consumer`
+1. Clone repo, change to directory, and install dependencies: `git clone git@github.com:colinhoernig/producer-consumer.git && cd producer-consumer && npm install`
 2. Edit `config.js` to configure:
   * `expressionCount` - the number of expressions the producer should generate
   * `consumerPort` - the port that the consumer service lives on
