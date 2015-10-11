@@ -43,6 +43,6 @@ The Producer service will generate expressions and send them via TCP socket conn
 
 ## UML Diagrams
 
-![UML Sequence Diagram](/images/producer-consumer-sequence-diagram?raw=true "UML Sequence Diagram")
+![UML Sequence Diagram](/images/producer-consumer-sequence-diagram.png?raw=true "UML Sequence Diagram")
 
 ![UML Activity Diagram](/images/producer-consumer-activity-diagram.png?raw=true "UML Activity Diagram")
