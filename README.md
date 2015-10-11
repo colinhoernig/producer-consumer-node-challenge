@@ -48,3 +48,13 @@ The Producer service will generate expressions and send them via TCP socket conn
 ![UML Sequence Diagram](/images/producer-consumer-sequence-diagram.png?raw=true "UML Sequence Diagram")
 
 ![UML Activity Diagram](/images/producer-consumer-activity-diagram.png?raw=true "UML Activity Diagram")
+
+---
+
+#### Credit
+
+The implementations of Consumer and Producer are partly inspired by:
+
+* https://gist.github.com/creationix/707146
+* https://github.com/dustinboston/node-producer-consumer
+* https://github.com/brandonmoser/node_challenge

@@ -1,7 +1,4 @@
 // Consumer Service
-// Inspired by:
-//  https://gist.github.com/creationix/707146
-//  https://github.com/brandonmoser/node_challenge
 'use strict';
 
 var net = require('net');
