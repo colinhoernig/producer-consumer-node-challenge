@@ -1,0 +1,26 @@
+{
+  "name": "producer-consumer",
+  "version": "0.1.0",
+  "description": "Producer/Consumer problem, AKA bounded buffer problem, implemented in Nodejs.",
+  "main": "consumer.js",
+  "scripts": {
+    "consumer": "node consumer.js",
+    "producer": "node producer.js",
+    "test": "./node_modules/.bin/mocha tests/*.spec.js --reporter list"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colinhoernig/producer-consumer.git"
+  },
+  "author": "Colin Hoernig <hoernig.colin@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/colinhoernig/producer-consumer/issues"
+  },
+  "homepage": "https://github.com/colinhoernig/producer-consumer#readme",
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3"
+  },
+  "dependencies": {}
+}
