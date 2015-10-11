@@ -13,7 +13,7 @@ var frequency = config.consumerFrequency || 100;
 // Structure to keep track of connected Producers
 var producers = [];
 
-// Start a TCP server
+// Start a TCP server that allows connections from Producers
 var server = net.createServer(function(socket) {
 
   // Keep track of newly connected Producer
@@ -29,8 +29,8 @@ var server = net.createServer(function(socket) {
   // Handle incoming expressions from Producer
   socket.on('data', function(data) {
     queue.enqueue([
-      data.toString(),
-      socket.remotePort
+      data.toString(), // incoming expression
+      socket.remotePort // Producer port number
     ]);
   });
 
@@ -67,7 +67,7 @@ var server = net.createServer(function(socket) {
       }
     });
 
-    // Log the message
+    // Log the message to the standard output
     process.stdout.write(message + "\n");
   }
 

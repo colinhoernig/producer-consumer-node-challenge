@@ -15,6 +15,31 @@ var producerHost = config.producerHost || 'localhost';
 // Create a socket connection to the Consumer
 var producer = new net.Socket();
 
+// Define the Producer HTTP server
+var producerServer = function(port, host, producer) {
+  console.log("Producer started on " + producerHost + ':' + producerPort);
+  console.log("Connected to Consumer on " + consumerHost + ':' + consumerPort + "\n");
+
+  // Create an HTTP endpoint for generating requests and sending
+  // them to the Consumer
+  var app = connect();
+  app.use('/generate-expression', function(req, res) {
+    // Generate a random expression
+    var exp = expression.generate();
+
+    // Reply back with the expression to the requester
+    var message = "Generated Expression: " + exp;
+    res.end(message);
+    console.log(message);
+
+    // Finally, send the expression to the Consumer
+    producer.write(exp + "\n", 'utf8');
+  });
+
+  // Start the HTTP server
+  return app.listen(producerPort, producerHost);
+};
+
 // Connect to the Consumer service and start a simple HTTP server
 // for generating expressions
 producer.connect(consumerPort, consumerHost, function() {
@@ -46,29 +71,5 @@ producer.on('error', function(error) {
       console.log('Producer Error: ', error);
   }
 });
-
-var producerServer = function(port, host, producer) {
-  console.log("Producer started on " + producerHost + ':' + producerPort);
-  console.log("Connected to Consumer on " + consumerHost + ':' + consumerPort + "\n");
-
-  // Create an HTTP endpoint for generating requests and sending
-  // them to the Consumer
-  var app = connect();
-  app.use('/generate-expression', function(req, res) {
-    // Generate a random expression
-    var exp = expression.generate();
-
-    // Reply back with the expression to the requester
-    var message = "Generated Expression: " + exp;
-    res.end(message);
-    console.log(message);
-
-    // Finally, send the expression to the Consumer
-    producer.write(exp + "\n", 'utf8');
-  });
-
-  // Start the HTTP server
-  return app.listen(producerPort, producerHost);
-};
 
 module.exports = producerServer;
