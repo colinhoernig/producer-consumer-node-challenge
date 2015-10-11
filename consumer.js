@@ -72,6 +72,8 @@ var server = net.createServer(function(socket) {
     process.stdout.write(message + "\n");
   }
 
-}).listen(port);
+}).listen(port, function() {
+  console.log("Consumer listening on port " + port + "\n");
+});
 
-console.log("Consumer listening on port " + port + "\n");
+module.exports = server;

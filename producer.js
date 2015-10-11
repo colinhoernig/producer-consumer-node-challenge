@@ -18,25 +18,7 @@ var producer = new net.Socket();
 // Connect to the Consumer service and start a simple HTTP server
 // for generating expressions
 producer.connect(consumerPort, consumerHost, function() {
-  console.log("Producer started on " + producerHost + ':' + producerPort);
-  console.log("Connected to Consumer on " + consumerHost + ':' + consumerPort + "\n");
-
-  // Create an HTTP endpoint for generating requests and sending
-  // them to the Consumer
-  var app = connect();
-  app.use('/generate-expression', function(req, res) {
-    // Generate a random expression
-    var exp = expression.generate();
-
-    // Reply back with the expression to the requester
-    res.end("Generated Expression: " + exp + "\n");
-
-    // Finally, send the expression to the Consumer
-    producer.write(exp + "\n", 'utf8');
-  });
-
-  // Start the HTTP server
-  return app.listen(producerPort, producerHost);
+  producerServer(producerPort, producerHost, producer);
 });
 
 // Handle incoming data from Consumer
@@ -64,3 +46,27 @@ producer.on('error', function(error) {
       console.log('Producer Error: ', error);
   }
 });
+
+var producerServer = function(port, host, producer) {
+  console.log("Producer started on " + producerHost + ':' + producerPort);
+  console.log("Connected to Consumer on " + consumerHost + ':' + consumerPort + "\n");
+
+  // Create an HTTP endpoint for generating requests and sending
+  // them to the Consumer
+  var app = connect();
+  app.use('/generate-expression', function(req, res) {
+    // Generate a random expression
+    var exp = expression.generate();
+
+    // Reply back with the expression to the requester
+    res.end("Generated Expression: " + exp + "\n");
+
+    // Finally, send the expression to the Consumer
+    producer.write(exp + "\n", 'utf8');
+  });
+
+  // Start the HTTP server
+  return app.listen(producerPort, producerHost);
+};
+
+module.exports = producerServer;
