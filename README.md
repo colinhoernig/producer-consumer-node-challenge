@@ -40,3 +40,9 @@ The Producer service will generate expressions and send them via TCP socket conn
 1. Run `npm install` to install the test dependencies.
 2. Run `npm test` to run unit tests
 3. All tests should ideally pass :)
+
+## UML Diagrams
+
+![UML Sequence Diagram](/images/producer-consumer-sequence-diagram?raw=true "UML Sequence Diagram")
+
+![UML Activity Diagram](/images/producer-consumer-activity-diagram.png?raw=true "UML Activity Diagram")
