@@ -1,4 +1,4 @@
-// Producer
+// Producer Service
 'use strict';
 
 var net = require('net');
@@ -59,7 +59,9 @@ var producerServer = function(port, host, producer) {
     var exp = expression.generate();
 
     // Reply back with the expression to the requester
-    res.end("Generated Expression: " + exp + "\n");
+    var message = "Generated Expression: " + exp;
+    res.end(message);
+    console.log(message);
 
     // Finally, send the expression to the Consumer
     producer.write(exp + "\n", 'utf8');
