@@ -33,3 +33,9 @@ The end product should:
 3. Start as many Producer services as you wish with `npm run producer`.  When all expressions have been solved, the Producer service instance will terminate.
 
 The Producer service will generate expressions and send them via TCP socket connection to the Consumer service, which will queue each expression.  If the queue contains messages, the Consumer will parse and solve the expressions and log the solved expression.
+
+### Running Tests
+
+1. Run `npm install` to install the test dependencies.
+2. Run `npm test` to run unit tests
+3. All tests should ideally pass :)
