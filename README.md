@@ -43,6 +43,10 @@ The Producer service will generate expressions and send them via TCP socket conn
 2. Run `npm test` to run unit tests
 3. All tests should ideally pass :)
 
+### Rebuilding from Source
+1. Install Babel ES6 Transpiler with `npm install -g babel`
+2. Transpile `src` directory into project root with `babel src --out-dir .`
+
 ## UML Diagrams
 
 ![UML Sequence Diagram](/images/producer-consumer-sequence-diagram.png?raw=true "UML Sequence Diagram")
@@ -51,7 +55,7 @@ The Producer service will generate expressions and send them via TCP socket conn
 
 ---
 
-#### Credit
+#### Inspiration
 
 The implementations of Consumer and Producer are partly inspired by:
 
