@@ -11,14 +11,24 @@ const host = config.consumerHost || 'localhost';
 
 export default class Consumer {
   constructor(producers) {
-    this.producers = producers || new Set(); // collection of connected Producers
+    // Storage facility for connected Producers
+    this.producers = producers || new Set();
+
+    // Storage facility for messages
     this.expressionQueue = new Queue();
+
+    // How often to consume messages on the queue?
     this.consumeFrequency = config.consumerFrequency || 100;
 
     // Start a TCP server
     this.createServer(port, host);
   }
 
+  /**
+   * Create a TCP server that listens on specified port, and
+   * keeps track of all connected producers.  Any time the
+   * expression queue has a message, process it.
+   */
   createServer() {
     const server = net.createServer(function(socket) {
       // Keep track of the connected Producer
@@ -34,11 +44,16 @@ export default class Consumer {
       this.setupEventHandlers(socket);
     }.bind(this));
 
-    server.listen(port, function() {
+    return server.listen(port, function() {
       console.log("Consumer listening on port " + port + "\n");
     });
   }
 
+  /**
+   * Handle events on the Consumer socket connection
+   *
+   * @param  {socket}
+   */
   setupEventHandlers(socket) {
     // Handle incoming expressions from Producer
     socket.on('data', function(data) {
@@ -54,6 +69,10 @@ export default class Consumer {
     }.bind(this));
   }
 
+  /**
+   * Process an expression, solving it, and notifying the producer
+   * of the solved expression
+   */
   processExpression() {
     // Grab the expression message in the queue
     let message = this.expressionQueue.dequeue();
@@ -74,6 +93,11 @@ export default class Consumer {
     }.bind(this));
   }
 
+  /**
+   * @param  {string} Message to send to Producer
+   * @param  {int} Port number of Producer that we want to send to
+   * @return {string} Message sent to Producer
+   */
   notifyProducer(message, sender) {
     // Send the message to the Producer
     this.producers.forEach(function(producer) {
@@ -83,7 +107,7 @@ export default class Consumer {
     });
 
     // Log the message to the standard output
-    console.log(message);
+    return console.log(message);
   }
 }
 

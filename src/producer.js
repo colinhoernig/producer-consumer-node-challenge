@@ -20,6 +20,12 @@ export default class Producer {
     this.connectToConsumer(consumerPort, consumerHost);
   }
 
+  /**
+   * @param  {int} Port HTTP server should live on
+   * @param  {string} Host HTTP server should live on
+   * @param  {socket} Socket we want to write generated expressions to
+   * @return {server} Server listening on specified host:port
+   */
   createHttpServer(port, host, socket) {
     let app = connect();
     app.use('/generate-expression', function(req, res) {
@@ -35,6 +41,13 @@ export default class Producer {
     return app.listen(port, host);
   }
 
+  /**
+   * Connect to a Consumer server and start an HTTP server to be used
+   * for generating exprssions
+   *
+   * @param  {int} Port of consumer
+   * @param  {string} Host of consumer
+   */
   connectToConsumer(consumerPort, consumerHost) {
     this.socket.connect(consumerPort, consumerHost, function() {
       this.createHttpServer(this.producerPort, this.producerHost, this.socket);
@@ -43,6 +56,9 @@ export default class Producer {
     this.handleEventsFromConsumer();
   }
 
+  /**
+   * Handle events on the Producer socket connection
+   */
   handleEventsFromConsumer() {
     this.socket.on('data', function(data) {
       // Data received from the Consumer is deliminated by newlines

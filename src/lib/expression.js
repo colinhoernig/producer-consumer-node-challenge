@@ -3,9 +3,11 @@
 const OPERATORS = ['+', '-', '*', '/'];
 
 export default class Expression {
-  // Generate a random expression
-  // format:  [num][operator][num]=
-  // example: 12+30=
+  /**
+   * Generate a random expression with with terms between 1, 1000
+   *
+   * @return {string} Expression formatted as 1+2=
+   */
   static generate() {
     const firstTerm = this._rand(1, 1000);
     const secondTerm = this._rand(1, 1000);
@@ -14,6 +16,15 @@ export default class Expression {
     return firstTerm + operator + secondTerm + "=";
   }
 
+  /**
+   * @param  {string}
+   * @return {array} An array of expression parts
+   *
+   * matchedExpression[0] = first term
+   * matchedExpression[1] = operator
+   * matchedExpression[2] = second term
+   * matchedExpression[3] = '='
+   */
   static parse(expression) {
     // Regex pattern explaination:
     // (\d{1,})     match any digit an unlimited number of times (greedy)
@@ -22,6 +33,10 @@ export default class Expression {
     // \=           match = (equals) character
     const pattern = /^(\d{1,})([\+\-\*\/])(\d{1,})\=$/;
     const matchedExpression = expression.match(pattern);
+
+    if (!Array.isArray(matchedExpression)) {
+      throw new Error('Could not parse expression: ' + expression);
+    }
 
     // Remove the first element of the matchedExpression array,
     // as it is just the expression itself.
@@ -32,6 +47,12 @@ export default class Expression {
     return matchedExpression;
   }
 
+  /**
+   * Solve an expression in the format 1+2=
+   *
+   * @param  {string}
+   * @return {float}
+   */
   static solve(expression) {
     const parsedExpression = this.parse(expression);
 
@@ -63,6 +84,13 @@ export default class Expression {
     }
   }
 
+  /**
+   * Generate a random integer between two values
+   *
+   * @param  {int} minimum value, inclusive
+   * @param  {int} maximum value, exclusive
+   * @return {int} random integer
+   */
   static _rand(min, max) {
     min = min || 0;
     max = max || 1;

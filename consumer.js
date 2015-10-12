@@ -34,18 +34,35 @@ var Consumer = (function () {
   function Consumer(producers) {
     _classCallCheck(this, Consumer);
 
+    // Storage facility for connected Producers
     this.producers = producers || new Set();
+
+    // Storage facility for messages
     this.expressionQueue = new _libQueue2['default']();
+
+    // How often to consume messages on the queue?
     this.consumeFrequency = _config2['default'].consumerFrequency || 100;
-    this.server = this.createServer(port, host);
+
+    // Start a TCP server
+    this.createServer(port, host);
   }
+
+  // Create the new Consumer
+
+  /**
+   * Create a TCP server that listens on specified port, and
+   * keeps track of all connected producers.  Any time the
+   * expression queue has a message, process it.
+   */
 
   _createClass(Consumer, [{
     key: 'createServer',
     value: function createServer() {
       var server = _net2['default'].createServer((function (socket) {
+        // Keep track of the connected Producer
         this.producers.add(socket);
 
+        // Consume expressions at the specified frequency
         setInterval((function () {
           if (this.expressionQueue.size() > 0) {
             this.processExpression();
@@ -55,24 +72,36 @@ var Consumer = (function () {
         this.setupEventHandlers(socket);
       }).bind(this));
 
-      server.listen(port, function () {
+      return server.listen(port, function () {
         console.log("Consumer listening on port " + port + "\n");
       });
     }
+
+    /**
+     * Handle events on the Consumer socket connection
+     *
+     * @param  {socket}
+     */
   }, {
     key: 'setupEventHandlers',
     value: function setupEventHandlers(socket) {
       // Handle incoming expressions from Producer
       socket.on('data', (function (data) {
-        this.expressionQueue.enqueue([data.toString(), // incoming expression
+        this.expressionQueue.enqueue([data.toString(), // Incoming xpression
         socket.remotePort // Producer port number
         ]);
       }).bind(this));
 
+      // Remove Producer on disconnect
       socket.on('end', (function () {
         this.producers['delete'](socket);
       }).bind(this));
     }
+
+    /**
+     * Process an expression, solving it, and notifying the producer
+     * of the solved expression
+     */
   }, {
     key: 'processExpression',
     value: function processExpression() {
@@ -94,6 +123,12 @@ var Consumer = (function () {
         }
       }).bind(this));
     }
+
+    /**
+     * @param  {string} Message to send to Producer
+     * @param  {int} Port number of Producer that we want to send to
+     * @return {string} Message sent to Producer
+     */
   }, {
     key: 'notifyProducer',
     value: function notifyProducer(message, sender) {
@@ -105,7 +140,7 @@ var Consumer = (function () {
       });
 
       // Log the message to the standard output
-      console.log(message);
+      return console.log(message);
     }
   }]);
 
@@ -113,6 +148,5 @@ var Consumer = (function () {
 })();
 
 exports['default'] = Consumer;
-
 new Consumer();
 module.exports = exports['default'];

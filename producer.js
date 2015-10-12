@@ -43,6 +43,13 @@ var Producer = (function () {
     this.connectToConsumer(consumerPort, consumerHost);
   }
 
+  /**
+   * @param  {int} Port HTTP server should live on
+   * @param  {string} Host HTTP server should live on
+   * @param  {socket} Socket we want to write generated expressions to
+   * @return {server} Server listening on specified host:port
+   */
+
   _createClass(Producer, [{
     key: 'createHttpServer',
     value: function createHttpServer(port, host, socket) {
@@ -59,6 +66,14 @@ var Producer = (function () {
 
       return app.listen(port, host);
     }
+
+    /**
+     * Connect to a Consumer server and start an HTTP server to be used
+     * for generating exprssions
+     *
+     * @param  {int} Port of consumer
+     * @param  {string} Host of consumer
+     */
   }, {
     key: 'connectToConsumer',
     value: function connectToConsumer(consumerPort, consumerHost) {
@@ -68,6 +83,10 @@ var Producer = (function () {
 
       this.handleEventsFromConsumer();
     }
+
+    /**
+     * Handle events on the Producer socket connection
+     */
   }, {
     key: 'handleEventsFromConsumer',
     value: function handleEventsFromConsumer() {
