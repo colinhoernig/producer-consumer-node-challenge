@@ -1,39 +1,42 @@
 // Unit tests for expression.js
-var chai = require('chai'),
-    assert = chai.assert,
-    expect = chai.expect,
-    should = chai.should();
-var expression = require('../lib/expression');
+'use strict';
 
-describe('expression', function() {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-  it('should generate a random mathematical expression', function() {
-    var exp = expression.generate();
-    var parsedExpression = expression.parse(exp);
+var _chai = require('chai');
+
+var _libExpression = require('../lib/expression');
+
+var _libExpression2 = _interopRequireDefault(_libExpression);
+
+describe('expression', function () {
+
+  it('should generate a random mathematical expression', function () {
+    var exp = _libExpression2['default'].generate();
+    var parsedExpression = _libExpression2['default'].parse(exp);
 
     // Look for 3 parts (first term, operator, second term)
-    assert.equal(parsedExpression.length, 3);
+    _chai.assert.equal(parsedExpression.length, 3);
 
     // Check that the first and second terms are integers
-    assert(isInt(parsedExpression[0]));
-    assert(isInt(parsedExpression[2]));
+    (0, _chai.assert)(isInt(parsedExpression[0]));
+    (0, _chai.assert)(isInt(parsedExpression[2]));
 
     // Check that the operator is valid
-    assert(isOperator(parsedExpression[1]));
+    (0, _chai.assert)(isOperator(parsedExpression[1]));
   });
 
-  it('should generate different random mathematical expressions with each invocation', function() {
-    var firstExpression = expression.generate();
-    var secondExpression = expression.generate();
+  it('should generate different random mathematical expressions with each invocation', function () {
+    var firstExpression = _libExpression2['default'].generate();
+    var secondExpression = _libExpression2['default'].generate();
 
-    assert(firstExpression !== secondExpression);
+    (0, _chai.assert)(firstExpression !== secondExpression);
   });
 
-  it('should solve a mathematical expression in the format of 1+2=', function() {
-    var result = expression.solve('1+2=');
-    assert.equal(result, 3);
+  it('should solve a mathematical expression in the format of 1+2=', function () {
+    var result = _libExpression2['default'].solve('1+2=');
+    _chai.assert.equal(result, 3);
   });
-
 });
 
 // utility method to check if a value is strictly an integer

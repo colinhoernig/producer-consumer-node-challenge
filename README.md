@@ -45,7 +45,7 @@ The Producer service will generate expressions and send them via TCP socket conn
 
 ### Rebuilding from Source
 1. Install Babel ES6 Transpiler with `npm install -g babel`
-2. Transpile `src` directory into project root with `babel src --out-dir .`
+2. Transpile `src` directory into project root with `babel src --out-dir . && babel tests/src --out-dir tests`
 
 ## UML Diagrams
 

@@ -11,16 +11,20 @@ const host = config.consumerHost || 'localhost';
 
 export default class Consumer {
   constructor(producers) {
-    this.producers = producers || new Set();
+    this.producers = producers || new Set(); // collection of connected Producers
     this.expressionQueue = new Queue();
     this.consumeFrequency = config.consumerFrequency || 100;
-    this.server = this.createServer(port, host);
+
+    // Start a TCP server
+    this.createServer(port, host);
   }
 
   createServer() {
     const server = net.createServer(function(socket) {
+      // Keep track of the connected Producer
       this.producers.add(socket);
 
+      // Consume expressions at the specified frequency
       setInterval(function() {
         if (this.expressionQueue.size() > 0) {
           this.processExpression();
@@ -39,11 +43,12 @@ export default class Consumer {
     // Handle incoming expressions from Producer
     socket.on('data', function(data) {
       this.expressionQueue.enqueue([
-        data.toString(), // incoming expression
+        data.toString(), // Incoming xpression
         socket.remotePort // Producer port number
       ]);
     }.bind(this));
 
+    // Remove Producer on disconnect
     socket.on('end', function() {
       this.producers.delete(socket);
     }.bind(this));
@@ -82,4 +87,5 @@ export default class Consumer {
   }
 }
 
+// Create the new Consumer
 new Consumer();

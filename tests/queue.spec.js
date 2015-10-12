@@ -1,43 +1,48 @@
 // Unit tests for queue.js
-var chai = require('chai'),
-    assert = chai.assert,
-    expect = chai.expect,
-    should = chai.should();
-var queue = require('../lib/queue');
+'use strict';
 
-describe('queue', function() {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-  beforeEach(function() {
-    queue.clear();
+var _chai = require('chai');
+
+var _libQueue = require('../lib/queue');
+
+var _libQueue2 = _interopRequireDefault(_libQueue);
+
+describe('queue', function () {
+
+  var expressionQueue = new _libQueue2['default']();
+
+  beforeEach(function () {
+    expressionQueue.clear();
   });
 
-  afterEach(function() {
-    queue.clear();
+  afterEach(function () {
+    expressionQueue.clear();
   });
 
-  it('should enqueue a message', function() {
-    assert.equal(queue.size(), 0);
-    queue.enqueue('1+2=');
-    assert.equal(queue.size(), 1);
+  it('should enqueue a message', function () {
+    _chai.assert.equal(expressionQueue.size(), 0);
+    expressionQueue.enqueue('1+2=');
+    _chai.assert.equal(expressionQueue.size(), 1);
   });
 
-  it('should dequeue a message', function() {
-    assert.equal(queue.size(), 0);
-    queue.enqueue('1+2=');
-    assert.equal(queue.size(), 1);
+  it('should dequeue a message', function () {
+    _chai.assert.equal(expressionQueue.size(), 0);
+    expressionQueue.enqueue('1+2=');
+    _chai.assert.equal(expressionQueue.size(), 1);
 
-    var message = queue.dequeue();
-    assert.equal(queue.size(), 0);
-    assert.equal(message, '1+2=');
+    var message = expressionQueue.dequeue();
+    _chai.assert.equal(expressionQueue.size(), 0);
+    _chai.assert.equal(message, '1+2=');
   });
 
-  it('should clear all messages', function() {
-    assert.equal(queue.size(), 0);
-    queue.enqueue('1+2=');
-    queue.enqueue('2/3=');
-    assert.equal(queue.size(), 2);
-    queue.clear();
-    assert.equal(queue.size(), 0);
+  it('should clear all messages', function () {
+    _chai.assert.equal(expressionQueue.size(), 0);
+    expressionQueue.enqueue('1+2=');
+    expressionQueue.enqueue('2/3=');
+    _chai.assert.equal(expressionQueue.size(), 2);
+    expressionQueue.clear();
+    _chai.assert.equal(expressionQueue.size(), 0);
   });
-
 });
