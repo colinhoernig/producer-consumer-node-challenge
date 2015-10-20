@@ -1,6 +1,6 @@
 // Unit tests for queue.js
 import { assert, expect, should } from 'chai';
-import Queue from '../lib/queue';
+import Queue from '../../dist/lib/queue';
 
 describe('queue', function() {
 

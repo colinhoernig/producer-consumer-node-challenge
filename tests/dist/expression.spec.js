@@ -5,15 +5,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var _chai = require('chai');
 
-var _libExpression = require('../lib/expression');
+var _distLibExpression = require('../../dist/lib/expression');
 
-var _libExpression2 = _interopRequireDefault(_libExpression);
+var _distLibExpression2 = _interopRequireDefault(_distLibExpression);
 
 describe('expression', function () {
 
   it('should generate a random mathematical expression', function () {
-    var exp = _libExpression2['default'].generate();
-    var parsedExpression = _libExpression2['default'].parse(exp);
+    var exp = _distLibExpression2['default'].generate();
+    var parsedExpression = _distLibExpression2['default'].parse(exp);
 
     // Look for 3 parts (first term, operator, second term)
     _chai.assert.equal(parsedExpression.length, 3);
@@ -27,14 +27,14 @@ describe('expression', function () {
   });
 
   it('should generate different random mathematical expressions with each invocation', function () {
-    var firstExpression = _libExpression2['default'].generate();
-    var secondExpression = _libExpression2['default'].generate();
+    var firstExpression = _distLibExpression2['default'].generate();
+    var secondExpression = _distLibExpression2['default'].generate();
 
     (0, _chai.assert)(firstExpression !== secondExpression);
   });
 
   it('should solve a mathematical expression in the format of 1+2=', function () {
-    var result = _libExpression2['default'].solve('1+2=');
+    var result = _distLibExpression2['default'].solve('1+2=');
     _chai.assert.equal(result, 3);
   });
 });

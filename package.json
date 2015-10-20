@@ -4,9 +4,10 @@
   "description": "Producer/Consumer problem, AKA bounded buffer problem, implemented in Nodejs.",
   "main": "consumer.js",
   "scripts": {
-    "consumer": "node consumer.js",
-    "producer": "node producer.js",
-    "test": "./node_modules/.bin/mocha tests/*.spec.js --reporter list"
+    "consumer": "node dist/consumer.js",
+    "producer": "node dist/producer.js",
+    "generate": "node dist/generate.js",
+    "test": "./node_modules/.bin/mocha tests/dist/*.spec.js --reporter list"
   },
   "repository": {
     "type": "git",

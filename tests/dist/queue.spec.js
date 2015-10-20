@@ -5,13 +5,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var _chai = require('chai');
 
-var _libQueue = require('../lib/queue');
+var _distLibQueue = require('../../dist/lib/queue');
 
-var _libQueue2 = _interopRequireDefault(_libQueue);
+var _distLibQueue2 = _interopRequireDefault(_distLibQueue);
 
 describe('queue', function () {
 
-  var expressionQueue = new _libQueue2['default']();
+  var expressionQueue = new _distLibQueue2['default']();
 
   beforeEach(function () {
     expressionQueue.clear();

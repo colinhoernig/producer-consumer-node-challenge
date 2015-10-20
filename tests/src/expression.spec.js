@@ -1,6 +1,6 @@
 // Unit tests for expression.js
 import { assert, expect, should } from 'chai';
-import Expression from '../lib/expression';
+import Expression from '../../dist/lib/expression';
 
 describe('expression', function() {
 

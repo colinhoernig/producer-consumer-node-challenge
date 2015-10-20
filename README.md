@@ -33,7 +33,7 @@ The end product should:
   * `consumerFrequency` - the frequency of which to consume produced expressions
 3. Start the Consumer service with `npm run consumer`.
 4. Start the Producer service with `npm run producer`.
-5. You may generate a large number of expressions quickly by running `node generate.js`.  This will flood the Producer with 1000 requests for generating expressions. Generate an single expression by issuing a GET request to the Producer: `curl http://localhost:3002/generate-expression`, then take a look at the log output in the Consumer and Producer services.  You'll notice the Consumer outputs all solved expressions, and the Producer outputs all generated and solved expressions.
+5. You may generate a large number of expressions quickly by running `npm run generate`.  This will flood the Producer with 1000 requests for generating expressions. Generate an single expression by issuing a GET request to the Producer: `curl http://localhost:3002/generate-expression`, then take a look at the log output in the Consumer and Producer services.  You'll notice the Consumer outputs all solved expressions, and the Producer outputs all generated and solved expressions.
 
 The Producer service will generate expressions and send them via TCP socket connection to the Consumer service, which will queue each expression.  If the queue contains messages, the Consumer will parse and solve the expressions and log the solved expression.
 
@@ -45,7 +45,7 @@ The Producer service will generate expressions and send them via TCP socket conn
 
 ### Rebuilding from Source
 1. Install Babel ES6 Transpiler with `npm install -g babel`
-2. Transpile `src` directory into project root with `babel src --out-dir . && babel tests/src --out-dir tests`
+2. Transpile `src` directory into project root with `babel src --out-dir dist && babel tests/src --out-dir tests/dist`
 
 ## UML Diagrams
 
